@@ -94,9 +94,103 @@ function p(method, url, data) {
 }
 ```
 
-**promise**
+**手写promise**
+promise特性：参考`promise-polyfill`
+1. 捕获错误与try catch等同
+```javascript
+var pp = new Promise((resolve, reject) => {
+  throw Error('sync error)
+})
+  .then(res => {
+
+  })
+  .catch(err => {
+    console.log(err)
+  })
+
+// try/catch包裹回调代码
+function Promise(fn) {
+    ...
+    doResolve(fn, this)
+}
+
+function doResolve(fn, self) {
+    try {
+        fn(function(value) {
+            ...
+        },
+        function(reason) {
+            ...
+        })
+    } catch(err) {
+        reject(self, err)
+    }
+}
+
+Promise.prototype.then = function(onFulfilled, onRejected) {
+    try {
+        ...
+        onFulfilled(value)
+    } catch(err) {
+        reject(err)
+    }
+};
+
+function reject(self, newValue) {
+    ...
+    if (!self._handled) {
+        Promise._unhandledRejectionFn(self._value);
+    }
+}
+```
+2. Promise拥有状态变化
+一个 Promise有以下几种状态:
+* pending: 初始状态，既不是成功，也不是失败状态。
+* fulfilled: 意味着操作成功完成。
+* rejected: 意味着操作失败。
+
+```javascript
 
 ```
+
+
+3. Promise方法中的回调是异步的
+```javascript
+var pp = new Promise((resolve, reject) => {
+  resolve()
+  setTimeout(() => {
+    console.log(1)
+  })
+  console.log(2)
+})
+  .then(res => {
+    console.log(3)
+  })
+
+console.log(4)
+```
+
+4. Promise会存储返回值
+```javascript
+var p1 = new Promise(function(resolve, reject) {
+    reject(1)
+})
+    .catch(err => {
+        console.log(err)
+        return 2
+    })
+
+setTimeout(() => {
+    p1
+        .then(res => console.log(res))
+}, 1000)
+
+// 先输出： 1，1秒后输出：2
+```
+
+5. Promise方法每次都返回一个新的Promise
+
+```javascript
 // 三种状态
 const PENDING = "pending";
 const RESOLVED = "resolved";
