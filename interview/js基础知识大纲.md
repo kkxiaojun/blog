@@ -1,15 +1,11 @@
 题目->考点->知识再到题目
 
-## window.onload与DOMContentLoaded
+# window.onload与DOMContentLoaded
 
 1. 当 `onload` 事件触发时，页面上所有的DOM，样式表，脚本，图片，flash都已经加载完成了。
 2. 当 `DOMContentLoaded` 事件触发时，仅当DOM加载完成，不包括样式表，图片，flash 
 
-
-
-# 知识点
-
-## 变量类型和计算
+# 变量类型和计算
 
 **类型**
 
@@ -38,7 +34,7 @@
 - 逻辑运算符。（tips：!!undefined）
 - 何时使用==和===？除了（obj.a == null ,jquery源码写法）其它均用===
 
-## 内置函数
+# 内置函数
 
 - Object
 - Array
@@ -51,7 +47,7 @@
 - Error
 - ~~Math内置对象~~
 
-## 原型和原型链
+# 原型和原型链
 
 **构造函数**
 
@@ -82,7 +78,7 @@ function Foo() {} 其实是var Foo = new Function()
 * JavaScript是动态的没有class实现。在ES6中引入了`class`关键字，但是是语法糖。
 * 谈到继承时，JavaScript只有一种结构：对象。每个object都有一个私有属性（`__proto__`)指向它的原型对象（prototype）。该原型对象也有一个自己的（`__proto__`），层层往上直到一个对象的原型对象为`null`。根据定义，`null`没有原型。
 
-### 原型规则（5条规则）和实例
+## 原型规则（5条规则）和实例
 
 1. 所有的引用类型（数组、对象、函数），都具有对象特性，即可自由拓展属性（除了null）。
 2. 所有的引用类型（数组、对象、函数），都具有一个`__proto__`（隐式原型）属性，属性值是一个普通的对象。
@@ -100,7 +96,7 @@ for (var i in obj) {
 }
 ```
 
-### 原型链
+## 原型链
 
 **例子**
 
@@ -221,12 +217,144 @@ function Food(){
 
 ```
 
+# 作用域和闭包
 
+### 基础知识
 
+* 执行上下文。
 
+* this。要在执行时才能确认，定义时无法确认。
 
+* call,bind,apply
 
+  ```javascript
+  // 指定为null和undefined的this值会自动指向全局对象(浏览器中就是window对象)
+  fun.call(thisArg, arg1, arg2, ...)
+  fun.apply(thisArg, [argsArray])
+  // 创建一个新函数，在调用时设置this关键字为提供的值。
+  function.bind(thisArg[, arg1[, arg2[, ...]]])
+  ```
 
+## 作用域
+
+* 没有块级作用域
+* 只有函数和全局作用域
+* 作用域链。由函数和全局作用域组成
+* 自由变量，到父作用域（定义的时候决定）寻找
+
+## 闭包
+
+不要尝试用几句话去说明闭包
+
+**使用场景**
+
+* 函数作为返回值
+* 函数作为参数传递
+
+## 例题
+
+**对变量提升的理解**
+
+* 变量定义
+* 函数声明（注意函数表达式的区别）
+* 作用域链
+
+**说明this的几种不同使用场景**
+
+* 作为构造函数执行
+* 作为对象属性执行
+* 作为普通函数执行
+* call apply bind
+
+**创建10个a标签，点击弹出相应的序号**
+
+```javascript
+  var i;
+  for (i = 0; i < 10; i++) {
+    (function (i) {
+      var a = document.createElement('a');
+      a.innerHTML = i + '<br>';
+      a.addEventListener('', function (e) {
+        e.preventDefault();
+        alert(i); // 自由变量，要去父作用域获取值
+      });
+      document.body.appendChild(a);
+    })(i)
+  }
+```
+
+**如何理解作用域**
+
+* 自由变量
+* 作用域链，即自由变量的查找
+* 闭包的两个应用场景
+
+**实际开发中闭包的应用**
+实际开发中主要用于封装变量，收敛权限
+
+# 异步和单线程
+
+## 异步
+**异步与同步区别**
+* 是否会阻塞代码执行
+* alert是同步，setTimeout是异步
+
+## 前端使用异步的场景
+* 定时任务：setTimeout、setInterval
+* 网络请求：ajax请求，动态img加载
+* 事件绑定
+
+## 异步和单线程
+**单线程**
+* 一次只能执行一个任务
+* 不能同时干两件事情
+
+## Date Math Array Object
+**Date**
+```javascript
+Date.now() // 获取当前时间的毫秒数
+var dt = new Date()
+dt.getTime() // 获取毫秒数
+dt.getFullYear() // 年
+dt.getMonth()
+dt.getDay()
+dt.getHours()
+dt.getMinutes()
+dt.getSeconds()
+```
+**Math**
+```javascript
+Math.random() // 获取随机数
+```
+**Array**
+```javascript
+forEach()
+every()
+some()
+sort()
+map()
+filter()
+```
+**Object**
+```
+for in
+```
+**写一个能遍历对象和数组的函数**
+```javascript
+function forEach(obj, callback) {
+  var key;
+  if (obj instanceof Array) {
+    obj.forEach(function (item, index) {
+      callback(index, item);
+    })
+  } else {
+    for (key in obj) {
+      callback(key, obj[key]);
+    }
+  }
+}
+```
+# Web API
 
 
 
