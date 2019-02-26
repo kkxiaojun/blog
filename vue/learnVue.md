@@ -45,4 +45,30 @@ new Vue({
 ![data](./../image/data.png)
 
 **initData**
-遍历对象的所有属性并进行双向绑定
+```javascript
+// 初始化data
+function initData() {
+    while () {
+        ...
+        // 将data属性代理到vm实例上
+        proxy(vm, '', data, key)
+    }
+    observe(data, true /* asRootData */)
+}
+
+// 如果存在ob对象则直接返回，不存在就创建新对象
+function observe(value, asRootData) {
+    let ob = {}
+    if (value.__ob__) {
+        ...
+    } else {
+        ob = new Observe();
+    }
+    return ob;
+}
+
+export class Observe{
+
+}
+
+```
