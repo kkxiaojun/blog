@@ -9,9 +9,9 @@
 
 **类型**
 
-- 值类型。栈内存
+- 值类型。栈内存(栈是为执行线程留出的内存空间,栈附属于线程，因此当线程结束时栈被回收)
 
-- 引用类型。堆内存（指针）。对象、数组、函数
+- 引用类型(对象、数组、函数)。堆内存（堆（heap）是为动态分配预留的内存空间,堆通常通过运行时在应用程序启动时被分配，当应用程序（进程）退出时被回收）。
 
 - typeof。只能识别值类型和函数，不能识别引用类型
 
@@ -123,7 +123,7 @@ f.toString() // 要去 f.__proto.__proto__找
 
 **图示**
 
-![prototype](/Users/apple/Desktop/prototype.png)
+![prototype](./../image/prototype.png)
 
 **使用instanceof判断一个函数是否是一个变量的构造函数**
 
@@ -355,11 +355,157 @@ function forEach(obj, callback) {
 }
 ```
 # Web API
+## DOM本质
+HTML（HyperText Markup Language）
+结构：dom树
+## DOM节点操作
+**获取DOM节点**
+```javascript
+  getElementById() //元素
+  getElementsByTagName() //集合
+  getElementsByClassName() // 集合
+  querySelectorAll()
+  querySelector() 
+```
+**proterty**
+js属性
+```javascript
+  style,className,nodeName,nodeType
+```
+**Attribute**
+```javascript
+  html属性
+```
 
+## DOM结构操作
+```javascript
+  createElement(),appendChild(),.parentElement,childNodes,removeChild()
+```
+## 题目
+* DOM是哪种基本的数据结构
+* DOM常用的操作API
+* DOM节点的attr和property有何区别
 
+## 事件绑定
+```javascript
+  function bindEvent(elem, type, selector, fn) {
+    if(fn == null) {
+      fn = selector;
+      selector = null;
+    }
+    elem.addEventListener(type, function(e) {
+      var target；
+      if(selector) {
+        // 代理
+        target = e.target；
+        if(target.matches(selector)) {
+          fn.call(target, e)
+        }
+      } else {
+        fn(e)
+      }
+    })
+  }
+```
 
+## 事件冒泡
+* DOM树形结构
+* 事件冒泡
+* 阻止冒泡
+* 冒泡的应用
 
+代理：
+  1. 代码简洁
+  2. 浏览器压力小
 
+## XHR
+**XMLHttpRequest**
+```
+var xhr = new XMLHttpRequest()
+xhr.open('GET', 'url', false)
+xhr.onreadystatechange = function () {
+  if(xhr.readyState === 4) {
+    if(xhr.status === 2) {
+      xhr.response
+    }
+  }
+}
+xhr.send(null)
+```
+|readyState|作用|
+|---|---|
+|0|未初始化，还未调用send()|
+|1|已调用send(),还在发送请求|
+|2|请求发送成功，已经接收到响应内容|
+|3|解析响应内容|
+|4|相应内容解析完成，可以在客户端用了|
 
+**跨域**
+* 浏览器有同源策略，不允许ajax访问其他域的接口
+* 跨域条件：协议，域名，端口
 
+**可以跨域的标签**
+* img：用于打点统计，统计网站可能是其他域
+* link，script：可以使用cdn，cdn也能是其域
+* script可以用于jsonp
+
+1. JSONP实现原理。
+2. 服务端设置http header
+
+**存储** 
+**cookie**
+* 本身是用于客户端与服务端通信。
+* 但是它本有本地存储的功能，于是就被借用
+
+缺点：
+1. 存储量太小，只有4kb
+2. 所有的http请求都带着，会影响获取资源的效率
+3. api简单，document.cookie,需要封装
+
+**localStorage，sessionStorage**
+* HTML5为存储而设计的。最大容量5M
+* api简单易用
+
+### cookie，sessionStorage，localStorage区别
+* 容量
+* api易用性
+* ajax是否携带
+
+# 关于开发环境
+## git
+**代码管理**
+* 将当前服务器的代码全部打包并记录版本号，备份
+* 将测试完成的代码提交到git版本库的master分支
+**上线回滚**
+* 将当前服务器的代码打包并记录版本号，备份
+* 将备份的上一个版本号解压，覆盖到线上服务器，并生成新的版本号
+
+基本命令：
+```
+
+```
+## 模块化
+**AMD**
+* 对于依赖的模块,amd是提前执行（提前读取并加载），
+* cmd是延迟执行，按需加载（提前读取不加载）。CMD 推崇 as lazy as possible
+**webpack**
+```javascript
+  var path = require('path')
+  var webpack = require('path')
+  module.exports = {
+    context: path.resolve(__dirname, './src'),
+    entry: {
+      app: './app.js'
+    },
+    output: {
+      path: path.resolve(__dirname, './dist')
+      filename: 'bundle.js'
+    }
+  }
+```
+
+# 运行环境
+## 页面加载过程
+## 性能优化
+## 安全性
 
