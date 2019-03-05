@@ -320,3 +320,21 @@ eventUtil.addHandler(parent, 'click', e => {
     console.log(e.target.innerText)
 })
 ```
+
+# HTML5
+## drag
+1. 设置draggable,则元素可拖动
+2. ondragstart,拖动开始
+3. ondrop, ondragover拖拽后需要放置的地方
+```javascript
+    function dragstart_handler(ev) {
+    console.log("dragStart");
+    // Add the target element's id to the data transfer object
+    ev.dataTransfer.setData("text/plain", ev.target.id);
+    }
+
+    <body>
+        <p id="p1" draggable="true" ondragstart="dragstart_handler(event);">This element is draggable.</p>
+        <div id="target" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">Drop Zone</div>
+    </body>
+```
