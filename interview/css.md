@@ -53,6 +53,17 @@ float仍会占据其位置，position:absolute不占用页面空间 会有重叠
 3. relative 生成相对定位的元素，相对于其在普通流中的位置进行定位。
 4. static 默认值。没有定位，元素出现在正常的流中
 5. sticky 生成粘性定位的元素，容器的位置根据正常文档流计算得出（饿了么的h5搜索框就是用了这个特性）
+6. inherit：规定从父元素继承 position 属性的值。
+
+**注意**
+1. absolute：生成绝对定位的元素，定位原点是离自己这一级元素最近的一级position设置为absolute或者relative的父元素的左上角为原点的。
+2. relative：生成相对定位的元素，定位原点是元素本身所在位置。。
+
+**absolute的containing block计算方式与正常流有什么不同**
+无论属于哪种，都要先找到其祖先元素中最近的 position 值不为 static 的元素，然后再判断：
+1. 若此元素为 inline 元素，则 containing block 为能够包含这个元素生成的第一个和最后一个 inline box 的 padding box (除 margin, border 外的区域) 的最小矩形；
+2. 否则,则由这个祖先元素的 padding box 构成。
+如果都找不到，则为 initial containing block。
 
 # 动画
 用js来实现动画，我们一般是借助setTimeout或setInterval这两个函数，以及新的requestAnimationFrame

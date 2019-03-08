@@ -1,6 +1,6 @@
 # webpack的哈希有哪几种
 **hash**
-每次webpack构建的时候都生成新的hash
+每次webpack构建的时候都生成新的hash（不管文件有没有发生变化）
 **chunkhash**
 代表的是chunk(模块)的hash值。
 |名称|说明|
