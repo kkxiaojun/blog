@@ -1,13 +1,16 @@
-## vue-cli构建的项目在nginx中的配置运行`npm run build`后，找到dist目录
+# nginx部署vue-cli项目
+vue-cli项目`npm run buil`后的nginx部署。运行`npm run build`后，找到dist目录
 
-1. 方法一
+## 方法一
+直接部署在根目录下，遗憾的是不能自由命名location后的访问路径
 ```
 	location / {
-		root   F:/CMTTrackDRUI/Resources/Web/pre-download-static/dist;
+		root   F:/pre-download-static/dist;
 		index index.html;
 	}
 ```
-2. 方法二
+## 方法二
+指定root，rewrite到index.html，可自由命名location后的访问路径
 ```
 server {
     listen       8089;
@@ -28,41 +31,49 @@ server {
 	}
 }
 ```
-3. 方法三
-    1. 修改config/index.js配置文件
-        ```
-        module.exports = {
-         dev: {
-        // Paths
-        assetsSubDirectory: 'static',
-        assetsPublicPath: '/record-static/',
-        proxyTable: {
-          '/api': {
-            target: 'http://localhost:3000',
-            changeOrigin: true
-          }
+## 方法三
+可自由命名location后的访问路径
+
+1. 修改config/index.js配置文件, `assetsPublicPath`的值
+    
+    ```javascript
+    module.exports = {
+        dev: {
+    // Paths
+    assetsSubDirectory: 'static',
+    assetsPublicPath: '/record-static/',
+    proxyTable: {
+        '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
+        }
+    },
+    ```
+
+2. 修改build/webpack.prod.conf.js配置文件，`publicPath`的值
+
+    ```javascript
+        output: {
+        publicPath: '/record-static/',
+        path: config.build.assetsRoot,
+        filename: utils.assetsPath('js/[name].[chunkhash].js'),
+        chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
         },
-        ``
-    2. 修改build/webpack.prod.conf.js配置文件
-        ```
-          output: {
-            publicPath: '/record-static/',
-            path: config.build.assetsRoot,
-            filename: utils.assetsPath('js/[name].[chunkhash].js'),
-            chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
-          },
-        ```
-    3. 修改router.js文件
-        ```
-        export default new Router({
-            base: '/record-static/',
-        })
-        ```
-    4. ngnix配置
-        ```
-		location /record-static {
-			alias E:/git/pre-download-static/dist;
-			try_files $uri $uri/ record-static/index.html;
-		}
-        ```
-```
+    ```
+
+3. 修改router.js文件，`base`的值
+    ```javascript
+    export default new Router({
+        base: '/record-static/',
+    })
+    ```
+
+4. ngnix配置
+
+    ```
+    location /record-static {
+        alias E:/git/pre-download-static/dist;
+        try_files $uri $uri/ record-static/index.html;
+    }
+    ```
+ps: 不足之处望指出，有更好的建议请分享
