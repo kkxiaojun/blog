@@ -34,7 +34,10 @@
 - 逻辑运算符。（tips：!!undefined）
 - 何时使用==和===？除了（obj.a == null ,jquery源码写法）其它均用===
 
-# 内置函数
+# 内置对象
+10个函数类型( String,Number,Boolean,Array,Function,Date,RegExp,Error,Object,Event )函数类型 有 `__proto__`和 `prototype` 属性。
+
+2个对象类型（Math,JSON） 对象类型只有`__proto__`属性。
 
 - Object
 - Array
@@ -132,6 +135,7 @@ f.toString() // 要去 f.__proto.__proto__找
 1. f 的`__proto__`一层层往上，能否对应到Foo.prototype
 2. 再试着判断f instanceof Object
 
+`__proto__`不是标准属性，并且该属性不是标准属性，不可以用在编程中，用于浏览器内部
 ## 例题
 
 **如何准确判断一个变量是数组**
@@ -144,7 +148,7 @@ function isArray(arr) {
     if (typeof Array.isArray === 'function') {
         return Array.isArray(arr);
     } else {
-        return Object.prototype.String.call(arr) === '[Object Array]';
+        return Object.prototype.toString.call(arr) === '[object Array]';
     }
 }
 ```
@@ -199,6 +203,7 @@ divc.on('click', function(e){
 
 
 **描述new一个对象的例子**
+1、创建一个空对象，并且this变量引用该对象，同时继承了该函数的原型（实例对象通过__proto__属性指向原型对象；obj.__proto__ = Base.prototype;） 2、属性和方法被加入到 this 引用的对象中。
 
 ```javascript
 1. 创建一个新对象
@@ -208,6 +213,16 @@ divc.on('click', function(e){
 function Food(){
     this.cai = cai;
     // return this // 默认有这一行
+}
+```
+
+详解
+```javascript
+function myNew(_constructor, arg) {
+  var obj = {};
+  obj._proto_ = _constructor.prototype;
+  //把该对象的原型指向构造函数的原型对象，就建立起原型了：obj->Animal.prototype->Object.prototype->null
+  return _constructor.call(obj, arg);
 }
 ```
 
@@ -529,3 +544,103 @@ xhr.send(null)
 **XSS跨站请求攻击**
 插入一段script
 **XSRF跨站请求伪造**
+
+## 浅拷贝和深拷贝
+1. 最大的区别就是基本类型和对象类型：基本类型是传值，对象类型是传引用
+2. 浅拷贝只复制指向某个对象的指针，而不复制对象本身，新旧对象还是共享同一块内存。但深拷贝会另外创造一个一模一样的对象，新对象跟原对象不共享内存，修改新对象不会改到原对象。
+
+### 深拷贝的实现
+ES6,针对深拷贝，需要使用其他办法，因为 Object.assign()拷贝的是属性值。假如源对象的属性值是一个对象的引用，那么它也只指向那个引用
+```javascript
+  var obj = { a: 0 , b: { c: 0}}; 
+  // ES6
+  Object.assign({}, obj)
+```
+
+JSON
+```javascript
+  var obj = { a: 0 , b: { c: 0}}; 
+  JSON.parse(JSON.stringify(obj))
+```
+
+递归
+```
+(function ($) {
+    'use strict';
+
+    var types = 'Array Object String Date RegExp Function Boolean Number Null Undefined'.split(' ');
+
+	function type () {
+	   return Object.prototype.toString.call(this).slice(8, -1);
+	}
+
+	for (var i = types.length; i--;) {
+	    $['is' + types[i]] = (function (self) {
+	        return function (elem) {
+	           return type.call(elem) === self;
+	        };
+	    })(types[i]);
+	}
+
+    return $;
+})(window.$ || (window.$ = {}));//类型判断
+
+function copy (obj,deep) { 
+    if ($.isFunction(obj)) {
+    	return new Function("return " + obj.toString())();
+    } else if (obj === null || (typeof obj !== "object")) { 
+        return obj; 
+    } else {
+        var name, target = $.isArray(obj) ? [] : {}, value; 
+
+        for (name in obj) { 
+            value = obj[name]; 
+
+            if (value === obj) {
+            	continue;
+            }
+
+            if (deep) {
+                if ($.isArray(value) || $.isObject(value)) {
+                    target[name] = copy(value,deep);
+                } else if ($.isFunction(value)) {
+                    target[name] = new Function("return " + value.toString())();
+                } else {
+            	    target[name] = value;
+                } 
+            } else {
+            	target[name] = value;
+            } 
+        } 
+        return target;
+    }　        
+}
+```
+
+## 跨域
+跨域是发生在浏览器端
+
+jsonp的原理和简单实现
+1. 动态创建script(script的src实现跨域)标签
+2. 通过将前端方法作为参数传递到服务器端，然后由服务器端注入参数之后再返回，实现服务器端向客户端通信。
+3. 只能支持get方法
+
+```javascript
+  function jsonp (req) {
+    var script = document.createElement('script')
+    var url = req.url + '?callback=' + req.callback.name
+    script.src = url
+    document.getElementsByTagName('head')[0].appendChild(script)
+  }
+```
+
+## for of,for in, Object.keys()
+for..of和for...in的区别, 使用时注意用Object.hasOwnProperty判断是否真的包含元素
+```
+var a = [4,1,6]
+for(var i of a) {console.log(i)} // 4,1,6
+for(var i in a) {console.log(i)} // 0,1,2
+```
+
+Object.keys与for...of的区别：
+1. Object.keys不会遍历到__proto__
