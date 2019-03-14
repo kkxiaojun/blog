@@ -436,3 +436,34 @@ async function Name() {
 		}
 	} 
 ```
+
+# websocket
+web浏览器与web服务器之间的全双工通信标准
+优点：
+1. 服务端能主动推送
+2. 只要建立连接，能一直保持连接状态
+
+原理： http连接建立之后，要完成“握手”，需要用到http的Upgrade首部字段。
+image-http-websoket
+
+> WebSocket 使用ws或wss协议，Websocket是一个持久化的协议，相对于HTTP这种非持久的协议来说。WebSocket API最伟大之处在于服务器和客户端可以在给定的时间范围内的任意时刻，**相互**推送信息。WebSocket并不限于以Ajax(或XHR)方式通信，因为Ajax技术需要客户端发起请求，而WebSocket服务器和客户端可以彼此相互推送信息；XHR受到域的限制，而WebSocket允许跨域通信。它实现了浏览器与服务器的全双工通信，扩展了浏览器与服务端的通信功能，使服务端也能主动向客户端发送数据。
+
+```
+// 创建一个socket实例
+var socket = new WebSocket('server')
+socket.onopen = function(event) {
+  socket.send('hei,man')
+  socket.onmessage = function(event) {
+    console.log(event);
+  }
+  socket.onclose = function(event){
+    console.log(event);
+  }
+  // socket.close();
+}
+
+// 打开socket
+// 发送一个初始化消息
+// 监听信息
+// 监听socket的关闭
+// 关闭socket

@@ -31,6 +31,28 @@
             mainbox.innerHTML = 'current page is '+state.title; // 还原UI
         })
     })()
+    function maxCount(str) {
+        let obj = {}
+        for (let i = 0; i < str.length; i++) {
+            if (obj[str.charAt(i)]) {
+                obj[str.charAt(i)]++
+            } else {
+                obj[str.charAt(i)] = 1
+            }
+        }
+        let num = 0, char =''
+        for (let key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                if (obj[key] > num) {
+                    num = obj[key]
+                    char = key
+                }
+            }
+        }
+        console.log(`字符串：${char}, 次数：${num}`)
+    }
+
+    maxCount('123hhhssjdfsfbnnnnn')
     </script>
 </body>
 </html>
