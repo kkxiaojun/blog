@@ -94,12 +94,85 @@ transition：property duration timing-function delay
 
 **三列布局**
 1. 与两列布局类似，左右两边设置position：absolute；和top:0;left:0;right:0; 中间设置margin-left和margin-right即可。
-2. 左右采用float,中间设置margin:0 300px
-3. 负边距
+2. 左右采用float,中间用calc()动态计算宽度，设置对应的margin
+3. 左右设置flex-basis，中间设置flex-grow
 
-**弹性布局flex**
+## 弹性布局flex
 容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（cross axis）
 
+注意：设为 Flex 布局以后，子元素的float、clear和vertical-align属性将失效。
+
+### 容器的属性
+以下6个属性设置在容器上
+```css
+  // 决定主轴的方向
+  flex-direction: row | row-reverse | column | column-reverse;
+
+  // 如果一条轴排不下，如何换行
+  flex-wrap: nowrap | wrap | wrap-reverse;
+  
+  // flex-direction和flex-wrap的简写
+  flex-flow: flex-flow: <flex-direction> || <flex-wrap>;
+
+  // 主轴上的对齐方式
+  justify-content: flex-start | flex-end | center | space-between | space-around;
+
+  // 交叉轴上的对齐方式
+  align-items: align-items: flex-start | flex-end | center | baseline | stretch;
+  
+  // 属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。
+  align-content
+```
+
+项目的6个属性
+```css
+  // 定义项目的排列顺序默认0
+  order: <integer>; /* default 0 */
+
+  // 定义项目的放大比例
+  flex-grow: <number>; /* default 0 */
+
+  // 定义项目的缩小比例
+  flex-shrink: <number>; /* default 1 */
+
+  // 定义了项目在分配多余空间之前，项目占据的主轴空间。可设置300px
+  flex-basis: <length> | auto; /* default auto */
+
+  // flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
+  flex: none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]
+  该属性有两个快捷值：auto (1 1 auto) 和 none (0 0 auto)。
+
+  // align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。
+  align-self: auto | flex-start | flex-end | center | baseline | stretch;
+```
+
+实现圣杯布局
+
+```css
+    <div class="HolyGrail-body">
+        <main class="HolyGrail-content">content</main>
+        <nav class="HolyGrail-nav">left</nav>
+        <aside class="HolyGrail-ads">right</aside>
+    </div>
+
+    .HolyGrail-body {
+        display: flex;
+        flex: 1;
+    }
+
+    .HolyGrail-content {
+        flex: 1; /*占据主轴空间*/
+    }
+
+    .HolyGrail-nav {
+        order: -1; /*提到最左边*/
+    }
+
+    .HolyGrail-nav,
+    .HolyGrail-ads {
+        flex: 0 0 12em; /*设置两边宽度*/
+    }
+```
 **CSS Grid**
 
 # 各个单位的区别（px, em, rem, 百分比, vw, vh, vmax, vmin）

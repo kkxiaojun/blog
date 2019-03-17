@@ -58,6 +58,9 @@ Ajax的工作原理相当于在用户和服务器之间加了—个中间层(AJA
 
 # Promise
 
+一句话概括promise: Promise对象用于异步操作，它表示一个尚未完成且预计在未来完成的异步操作。
+
+
 `Promise`是ES6新增的语法，解决了`callback hell`的问题。
 
 可以把Promise看成是一个状态机。初始状态是pending，通过resolve or reject 可以将状态转化为fulfilled or rejected.状态一旦改变就不能再次改变。
