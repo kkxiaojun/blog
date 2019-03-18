@@ -7,62 +7,24 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        .HolyGrail {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+        .circle {
+            width: 30px;
+            height: 30px;
+            background: #aaa;
+            animation: spin 1s infinite linear;
         }
-
-        header,
-        footer {
-            height: 60px;
-            width: 100%;
-            text-align: center;
-            background: #ccc;
-        }
-
-        .HolyGrail-body {
-            display: flex;
-            flex: 1;
-        }
-
-        .HolyGrail-content {
-            flex: 1;
-            /*占据主轴空间*/
-        }
-
-        .HolyGrail-nav {
-            order: -1;
-            /*提到最左边*/
-        }
-
-        .HolyGrail-nav,
-        .HolyGrail-ads {
-            flex: 0 0 12em;
-            /*设置两边宽度*/
-        }
-
-        @media (max-width: 768px) {
-            .HolyGrail-body {
-                flex-direction: column;
-                flex: 1;
+        @keyframes spin{
+            to {
+                transform: rotate(1turn);
             }
-            .HolyGrail-nav,
-            .HolyGrail-ads,
-            .HolyGrail-content {
-                flex: auto;
-            }
+        }
     </style>
 </head>
 
 <body class="HolyGrail">
-    <header>...</header>
-    <div class="HolyGrail-body">
-        <main class="HolyGrail-content">content</main>
-        <nav class="HolyGrail-nav">left</nav>
-        <aside class="HolyGrail-ads">right</aside>
+    <div class="circle">
+        转
     </div>
-    <footer>...</footer>
     <script>
         ; (function () {
             var menubox = document.getElementById('menu');
