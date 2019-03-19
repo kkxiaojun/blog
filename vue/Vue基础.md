@@ -21,7 +21,7 @@ Vue 中 template 就是先转化成 AST 树，再得到 render 函数返回 VNod
 AST 会经过 generate（将 AST 语法树转换成 render function 字符串的过程）得到 render 函数，render 的返回值是 VNode，VNode 是 Vue 的虚拟 DOM 节点，里面有标签名、子节点、文本等待。
 。
 
-# 虚拟dom的原理
+# 虚拟dom的原理,diff算法
 
 
 
@@ -39,7 +39,36 @@ AST 会经过 generate（将 AST 语法树转换成 render function 字符串的
 | beforeDestory | 组建销毁前调用                                        |                                                              |
 | destoryed     | 组件被销毁后调用                                      |                                                              |
 
+# vue 的 nextTick 实现的原理
 
+**JS 运行机制**
+JS 执行是单线程的，它是基于事件循环的。事件循环大致分为以下几个步骤：
 
-# vue 的 nexttick 实现的原理
-https://segmentfault.com/a/1190000012861862
+（1）所有同步任务都在主线程上执行，形成一个执行栈（execution context stack）。
+
+（2）主线程之外，还存在一个"任务队列"（task queue, 分为macro task和micro task）。只要异步任务有了运行结果，就在"任务队列"之中放置一个事件。
+
+（3）一旦"执行栈"中的所有同步任务执行完毕，系统就会读取"任务队列"，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。
+
+（4）主线程不断重复上面的第三步。
+
+**macro task,micro task**
+```javascript
+    for (macroTask of macroTaskQueue) {
+    // 1. Handle current MACRO-TASK
+    handleMacroTask();
+      
+    // 2. Handle all MICRO-TASK
+    for (microTask of microTaskQueue) {
+        handleMicroTask(microTask);
+    }
+}
+```
+在浏览器环境中，常见的 macro task 有 setTimeout、MessageChannel、postMessage、setImmediate；常见的 micro task 有 MutationObsever(MutationObserver接口提供了监视对DOM树变化的能力) 和 Promise.then。
+
+**nextTick原理**
+
+1. Vue异步执行Dom更新，只要观察到数据变化，就会开启一个队列，并缓冲在同一事件循环中发生的所有数据改变
+2. 同一个watcher被触发，只会被推入到队列中一次，在下一个的事件循环“tick”中，Vue 刷新队列并执行实际 (已去重的) 工作。（Promise().then or setTimeout()）
+3. 要在Dom更新完后做一些事，可使用`Vue.nextTick(callback)`
+4. nextTick想要一个异步API，用来在当前的同步代码执行完毕后，执行我想执行的异步回调，包括Promise和 setTimeout都是基于这个原因
