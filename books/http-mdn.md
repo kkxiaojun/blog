@@ -162,11 +162,11 @@ Host: d.w.org // 首部
 **类别**
 |状态码|类别|原因|
 |---|---|---|
-|1XX|Informational(信息性状态码)|接收的请求正在处理|
-|2XX|Success|请求正常处理完毕|
-|3XX|Redirectin|需要进行附加操以完成请求|
-|4XX|Client Error(客户端错误)|服务器无法处理请求|
-|5XX|Server Error|服务器请求出错|
+|1XX | Informational(信息性状态码) |接收的请求正在处理|
+|2XX | Success |请求正常处理完毕|
+|3XX | Redirectin |需要进行附加操以完成请求|
+|4XX | Client Error(客户端错误) |服务器无法处理请求|
+|5XX | Server Error |服务器请求出错|
 
 **状态码详情**
 * 100
