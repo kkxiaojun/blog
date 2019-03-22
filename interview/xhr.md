@@ -58,7 +58,7 @@ Ajax的工作原理相当于在用户和服务器之间加了—个中间层(AJA
 
 # Promise
 
-一句话概括promise: Promise对象用于异步操作，它表示一个尚未完成且预计在未来完成的异步操作。
+一句话概括promise: Promise 对象用于表示一个异步操作的最终状态（完成或失败），以及该异步操作的结果值。
 
 
 `Promise`是ES6新增的语法，解决了`callback hell`的问题。
@@ -100,7 +100,7 @@ function p(method, url, data) {
 **手写promise**
 promise特性：参考`promise-polyfill`
 1. 捕获错误与try catch等同
-```javascript
+```
 var pp = new Promise((resolve, reject) => {
   throw Error('sync error)
 })
