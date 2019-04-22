@@ -207,7 +207,7 @@ divc.on('click', function(e){
 
 ```javascript
 1. 创建一个新对象
-2. this指向这个新对象
+2. 链接原型
 3. 执行代码对this赋值
 4. 返回this
 function Food(){

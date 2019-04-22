@@ -1,89 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style>
-        .circle {
-            width: 30px;
-            height: 30px;
-            background: #aaa;
-            animation: spin 1s infinite linear;
-        }
-        @keyframes spin{
-            to {
-                transform: rotate(1turn);
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
 </head>
-
-<body class="HolyGrail">
-    <div class="circle">
-        转
-    </div>
-    <script>
-        ; (function () {
-            var menubox = document.getElementById('menu');
-            var mainbox = document.getElementById('main');
-
-            menubox.addEventListener('click', function (e) {
-                e.preventDefault();
-                var elm = e.target;
-                var uri = elm.href;
-                var tlt = elm.title;
-                history.pushState({ path: uri, title: tlt }, null, uri);
-                mainbox.innerHTML = 'current page is ' + tlt;
-            })
-            window.addEventListener('popstate', function (e) {
-                var state = e.state;
-                console.log(state);
-                mainbox.innerHTML = 'current page is ' + state.title; // 还原UI
-            })
-        })()
-
-        // 计算出现次数最多的字符
-        function maxCount(str) {
-            let obj = {}
-            for (let i = 0; i < str.length; i++) {
-                if (obj[str.charAt(i)]) {
-                    obj[str.charAt(i)]++
-                } else {
-                    obj[str.charAt(i)] = 1
-                }
-            }
-            let num = 0, char = ''
-            for (let key in obj) {
-                if (obj.hasOwnProperty(key)) {
-                    if (obj[key] > num) {
-                        num = obj[key]
-                        char = key
-                    }
-                }
-            }
-            console.log(`字符串：${char}, 次数：${num}`)
-        }
-
-        maxCount('123hhhssjdfsfbnnnnn')
-
-        // 找出数组中重复的元素
-        function findRepeat(arr) {
-            var repeatArr = [], obj = {}
-            for (var index = 0; index < arr.length; index++) {
-                if (obj[arr[index]] === arr[index]) {
-                    repeatArr.push(arr[index])
-                } else {
-                    obj[arr[index]] = arr[index]
-                }
-            }
-            return repeatArr
-        }
-
-        console.log(findRepeat([0, 0, 1, 2, 1, 3, 4, 5]))
-    </script>
+<body>
+  <div class="parent">
+    <div class="left">left</div>
+    <div class="right">right</div>
+  </div>
 </body>
-
 </html>
