@@ -1,44 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style>
-        .circle {
-            width: 30px;
-            height: 30px;
-            background: #aaa;
-            animation: spin 1s infinite linear;
-        }
-        @keyframes spin{
-            to {
-                transform: rotate(1turn);
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
 </head>
-
-<body class="HolyGrail">
-    <div class="circle">
-        转
-    </div>
-    <script>
-        var length = 10;
-        function foo() {
-            console.log(this.length)
-        }
-        var object = {
-            length: 1,
-            fn: function (foo) {
-                arguments[0]();
-                foo();
-            }
-        };
-        object.fn(foo, 100)
-    </script>
+<body>
+  <div class="parent">
+    <div class="left">left</div>
+    <div class="right">right</div>
+  </div>
 </body>
-
 </html>
