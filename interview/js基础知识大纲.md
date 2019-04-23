@@ -646,3 +646,49 @@ for(var i in a) {console.log(i)} // 0,1,2
 
 Object.keys与for...of的区别：
 1. Object.keys不会遍历到__proto__
+
+# EventLoop
+JS是门非阻塞单线程语言（如果是多线程，一个线程删除dom，一个线程中删除dom,会出问题），当然可以引入读写锁解决
+
+JS在执行的过程中会产生执行环境，这些执行环境会被顺序加入执行栈中，如果遇到异步任务，这些异步任务会被挂起并加入到Task队列中，
+一旦执行环境为空，Event Loop就会从Task队列中拿出需要执行的代码放到执行栈中执行。
+
+Task分为宏任务和微任务
+
+微任务包括 process.nextTick ，promise ，Object.observe ，MutationObserver
+
+宏任务包括 script ， setTimeout ，setInterval ，setImmediate ，I/O ，UI rendering
+
+Event Loop顺序
+1. 执行同步代码，这属于宏任务
+2. 执行栈为空，查询是否有微任务需要执行
+3. 执行所有微任务
+4. 必要的话渲染 UI
+5. 然后开始下一轮 Event loop，执行宏任务中的异步代码
+
+# 渲染机制
+浏览器的渲染一般包含以下几个步骤：
+1. 处理HTML构建DOM树
+2. 处理CSS构建CSSOM树
+3. Web浏览器将DOM和CSSOM结合，并构建出render tree
+4. 根据渲染树布局，计算每个节点的位置
+5. 调用GPU绘图，合成图层，显示在屏幕上
+
+什么是CSSOM
+
+1. CSSOM是CSS Object Model的缩写
+2. 大体上来说，CSSOM是一个建立在web页面上的 CSS 样式的映射
+3. 它和DOM类似，但是只针对CSS而不是HTML
+
+重绘(Repaint)和回流(Reflow)
+
+重绘（Repaint）和回流（Reflow）是渲染步骤中的一小步，但是对性能的影响很大。
+* repaint是当前节点需要更改外观而不影响布局，如改变颜色等
+* reflow是布局或几何属性需要改变
+
+回流必定会发生重绘，重绘不一定会引发回流。回流所需的成本比重绘高的多，改变深层次的节点很可能导致父节点的一系列回流。
+
+repaint和reflow和Event Loop有关
+
+1. 当 Event loop 执行完 Microtasks 后，会判断 document 是否需要更新。因为浏览器是 60Hz 的刷新率，每 16ms 才会更新一次。
+2. 然后判断是否有 resize 或者 scroll ，有的话会去触发事件，所以 resize 和 scroll 事件也是至少 16ms 才会触发一次，并且自带节流功能。
