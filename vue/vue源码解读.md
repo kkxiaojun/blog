@@ -30,3 +30,13 @@ flow是一个静态类型检测工具，Vue.js的源码利用了flow做了静态
 
 
 ## vue中mixin与extend区别
+
+## Proxy 与 Object.defineProperty 对比
+`Object.defineProperty`虽然已经能实现数据的双向绑定，但是还是有缺陷的
+1. 只能对属性进行数据劫持，所以需要深度遍历整个对象
+2. 对于数组不能监听到数据的变化
+
+vue中对于数组虽然能监听到数据的变化，但是是用hack的方法
+```javascript
+    
+```
