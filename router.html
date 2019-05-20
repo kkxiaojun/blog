@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>routers</title>
+</head>
+<body>
+  <ul>
+    <a href="#page1">tab-昨天</a>
+    <a href="#page2">tab-今天</a>
+    <a href="#page3">tab-下班</a>
+  </ul>
+  <script>
+    window.onload = () => {
+      // hash方式
+      function Router() {
+        // 路由集合
+        this.routes = {}
+        // 当前路由
+        this.currentRouter = ''
+      }
+      // 添加路由
+      Router.prototype.route = function (path, callback) {
+        this.routes[path] = callback
+      }
+      // 刷新
+      Router.prototype.reflesh = function() {
+        this.routes
+      }
+      var app = new Router()
+      app.routes('/page1', function(e) {
+        console.log(e)
+      })
+      app.routes('/page2', function(e) {
+        console.log(e)
+      })
+      app.routes('/page3', function(e) {
+        console.log(e)
+      })
+    }
+  </script>
+</body>
+</html>
