@@ -1,6 +1,14 @@
 # 路由的两种实现方式
 
 ## hash
+1. 通过a标签，设置href属性
+```javascript
+    <a href="#page1">page1</a>
+```
+2. 通过js直接设置`location.hash`
+```javascript
+    location.hash = '#page1'
+```
 ```javascript
     window.onload = function () {
         function Router() {

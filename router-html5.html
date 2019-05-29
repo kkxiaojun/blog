@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>routers-hmtl5</title>
+</head>
+<body>
+  <ul>
+    <li>整体思路：</li>
+    <li>1. 给a标签添加点击事件</li>
+    <li>2. 添加popState监听事件</li>
+  </ul>
+  <ul class="tab">
+    <a href="/page1" title="page1">tab-昨天</a>
+    <a href="/page2" title="page2">tab-今天</a>
+    <a href="/page3" title="page3">tab-下班</a>
+  </ul>
+  <p class="text">tab1</p>
+  <script>
+    window.onload = () => {
+      let tab = document.querySelector('.tab')
+      let text = document.querySelector('.text')
+      tab.addEventListener('click', function (e) {
+        console.log('e', e)
+        let elm = e.target
+        let uri = elm.href
+        let title = elm.title
+        console.log('uri', uri)
+        console.log('title', title)
+        // history.pushState({path: uri, title: title}, null, uri)
+        text.innerHTML = `${uri}牛逼`
+      })
+      window.addEventListener('popstate', function (e) {
+        console.log('popstate:', e)
+        text.innerHTML = 'the current page is :' +  e.title
+      })
+    }
+  </script>
+</body>
+</html>

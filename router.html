@@ -8,37 +8,46 @@
 </head>
 <body>
   <ul>
+    <li>整体思路：</li>
+    <li>1. 首先我们需要一个容器来存储更新时的回调函数</li>
+    <li>2. 更新url执行回调函数时，需要更新html页面</li>
+    <li>3. 监听url中的hash变化</li>
+  </ul>
+  <ul>
     <a href="#page1">tab-昨天</a>
     <a href="#page2">tab-今天</a>
     <a href="#page3">tab-下班</a>
   </ul>
+  <p class="text">tab1</p>
   <script>
     window.onload = () => {
-      // hash方式
       function Router() {
-        // 路由集合
         this.routes = {}
-        // 当前路由
         this.currentRouter = ''
       }
-      // 添加路由
-
-      Router.prototype.route = function (path, callback) {
-        this.routes[path] = callback
+      Router.prototype.route = function(path, callback) {
+        this.routes[path] = callback || function() {}
       }
-      // 刷新
-      Router.prototype.reflesh = function() {
-        this.routes
+      Router.prototype.refresh = function () {
+        console.log(this)
+        this.currentRouter = location.hash.replace(/#/, '/') || ''
+        this.routes[this.currentRouter]()
       }
-      var app = new Router()
-      app.routes('/page1', function(e) {
-        console.log(e)
+      Router.prototype.init = function() {
+        // window.addEventListener('load', this.refresh.bind(this))
+        window.addEventListener('hashchange', this.refresh.bind(this))
+      }
+      let app = new Router()
+      app.init()
+      let oDiv = document.querySelector('.text')
+      app.route('/page1', function() {
+        oDiv.innerHTML = 'page1'
       })
-      app.routes('/page2', function(e) {
-        console.log(e)
+      app.route('/page2', function() {
+        oDiv.innerHTML = 'page2'
       })
-      app.routes('/page3', function(e) {
-        console.log(e)
+      app.route('/page3', function() {
+        oDiv.innerHTML = 'page3'
       })
     }
   </script>
