@@ -72,6 +72,7 @@ upload上传excel
 
 post请求，表单参数
 ```javascript
+  import qs from 'qs'
   // vue
   const formData = new FormData()
   formData.append('scheduleIds', row.tableCourseScheduleId)

@@ -99,7 +99,7 @@ function isArray (arr) {
     if (typeof Array.isArray === 'function') {
         return Array.isArray(arr);
     } else {
-        return Object.prototype.toString.call(arr) === '[Object Array]';
+        return Object.prototype.toString.call(arr) === '[object Array]';
     }
 }
 ```
@@ -216,9 +216,24 @@ Boolean,Number,String
 |稳妥构造函数模式|适合在安全的环境中，防止数据被其他应用程序改变时使用|安全性|无|
 
 ### 继承
-实现继承，主要用原型链（prototype）实现
+1. 实现继承，主要用原型链（prototype）实现
 **确定原型和实例的关系**
 `instanceof`,`isPrototypeOf`
+
+2. call
+```javascript
+function Cat(name){
+  Animal.call(this);
+  this.name = name || 'Tom';
+}
+
+// Test Code
+var cat = new Cat();
+console.log(cat.name);
+console.log(cat.sleep());
+console.log(cat instanceof Animal); // false
+console.log(cat instanceof Cat); // true
+```
 
 ## BOM
 ### window对象
