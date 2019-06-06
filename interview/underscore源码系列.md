@@ -80,3 +80,49 @@ ES6
     return [...new Set(arr)]
   }
 ```
+# Javascript 特殊对象 Array-like 
+Array-like 像数组的对象，有length属性，且length为非负number
+
+将Array-like转化为数组
+
+方法一
+`slice`
+```javascript
+  [].slice(arguments)
+  // Array.prototype.slice.call(arguments),ie9有问题
+```
+
+`Array.from`
+
+```javascript
+Array.from(arguments)
+```
+
+# 数组乱序
+`splice`
+```javascript
+  function shuffle(a) {
+    let shuffleArr = []
+    while(a.length) {
+      let index = ~~(Math.random() * a.length)
+      shuffleArr.push(a[index])
+      a.splice(index, 1)
+    }
+    return shuffleArr
+  }
+```
+` Fisher–Yates Shuffle`
+其实它的思想非常的简单，遍历数组元素，将其与之前的任意元素交换。因为遍历有从前向后和从后往前两种方式，所以该算法大致也有两个版本的实现
+```javascript
+  function shuffle(a) {
+    let shuffleArr = a.concat()
+    for(let index = shuffleArr.length; index--;) {
+      let j = Math.floor(Math.random()*(index + 1))
+      let temp = shuffleArr[index]
+      shuffleArr[index] = shuffleArr[j]
+      shuffleArr[j] = temp
+    }
+    return shuffleArr
+  }
+```
+# group分组原理和设计
