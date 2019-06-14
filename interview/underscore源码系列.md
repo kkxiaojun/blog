@@ -125,4 +125,9 @@ Array.from(arguments)
     return shuffleArr
   }
 ```
-# group分组原理和设计
+
+# bind需要了解的知识点和应用场景
+`bind()`方法会创建一个新函数，在调用时创建`this`关键字为提供的值
+
+
+
