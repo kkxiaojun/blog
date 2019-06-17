@@ -49,3 +49,14 @@ git commit --amend
 1. git remote add upstream https://github.com/zhaobulang/demo2.git（源项目）
 2. git fetch upstream(更新代码)
 3. git merge --no-ff remotes/upstream/master（本地项目合并远程代码）
+
+# 回退版本
+```javascript
+  git reset --hard HEAD^ // 前一版
+  git reset --hard HEAD^^ // 前两版
+  git reset --hard HEAD~100 // 前100版
+  
+  // 回到最新版本
+  git reset --hard 1094a
+  git reflog // 记录每一次命令
+```
