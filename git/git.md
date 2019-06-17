@@ -17,6 +17,10 @@ git pull = git fetch + git merge
 git checkout -b dev // 新建分支
 git push origin dev:dev // 提交本地分支到远程
 ```
+```
+1.删除本地分支 git branch -D br
+2. 删除远程分支 git push origin :eml-dev
+```
 
 # 出现的问题
 遇到merge,使用vi命令
@@ -35,10 +39,6 @@ git reset commit_id
 git commit --amend
 
 # 删除分支
-```
-1.删除本地分支 git branch -D br
-2. 删除远程分支 git push origin :eml-dev
-```
 
 # fork代码并提pr
 ```
