@@ -6,10 +6,9 @@
   3. [https://zhujiwiki.com/](https://zhujiwiki.com/)
 
 ## 建立客户端和vps服务器的连接
-我是用[v2ray](https://github.com/v2ray/v2ray-core)
 步骤：
 1. 登录购买的vps服务器
-2. 在买的vps服务器上安装，[https://github.com/Jrohy/multi-v2ray](https://github.com/Jrohy/multi-v2ray)，生成一串vmess信息
+2. 在买的vps服务器上安装，[https://github.com/Jrohy/multi-v2ray](https://github.com/Jrohy/multi-v2ray)，生成一串vmess信息（软件随时可能更换，所以如果不行了就要自己找了，目的就是生成一串vmess脚本，方便不用配置）
 3. 在客户端安装[v2ray](https://github.com/v2ray/v2ray-core)
 4. v2ray导入vmess
 5. 启动即可使用
