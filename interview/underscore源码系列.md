@@ -129,5 +129,56 @@ Array.from(arguments)
 # bind需要了解的知识点和应用场景
 `bind()`方法会创建一个新函数，在调用时创建`this`关键字为提供的值
 
+# 防抖和节流
+* 函数节流的核心是，让一个函数不要执行得太频繁，减少一些过快的调用来节流。(一个是间隔时间段触发)
+* 函数去抖动就是对于一定时间段的连续的函数调用，只让其执行一次。(一个是只触发一次)
+
+## throttle 应用场景
+函数节流有哪些应用场景？哪些时候我们需要间隔一定时间触发回调来控制函数调用频率？
+
+* DOM 元素的拖拽功能实现（mousemove）(不能用 H5 Drag&Drop API)
+* 射击游戏的 mousedown/keydown 事件（单位时间只能发射一颗子弹）
+* 计算鼠标移动的距离（mousemove）
+* Canvas 模拟画板功能（mousemove）
+* 搜索联想（keyup）
+* 监听滚动事件判断是否到页面底部自动加载更多：给 scroll 加了 debounce 后，只有用户停止滚动后，才会判断是否到了页面底部；如果是 throttle 的话，只要页面滚动就会间隔一段时间判断一次
+## debounce 应用场景
+函数去抖有哪些应用场景？哪些时候对于连续的事件响应我们只需要执行一次回调？
+
+* 每次 resize/scroll 触发统计事件
+* 文本输入的验证（连续输入文字后发送 AJAX 请求进行验证，验证一次就好）
+
+## 代码实现
+去抖动
+```javascript
+    function debounce(method, context) {
+    clearTimeout(method.tId);
+    method.tId = setTimeout(function() {
+        method.call(context);
+    }, 1000);
+    }
+
+    function print() {
+    console.log('hello world');
+    }
+
+    window.onscroll = function() {
+    debounce(print);
+    };
+```
+
+节流
+```javascript
+var throttle = function(delay, action){
+  var last = return function(){
+    var curr = +new Date()
+    if (curr - last > delay){
+      action.apply(this, arguments)
+      last = curr 
+    }
+  }
+}
+```
+# 从斐波那契数列谈_.memoize优化
 
 
