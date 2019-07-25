@@ -92,3 +92,63 @@ post请求，表单参数
   })
 }
 ```
+## 坑
+1. el-table的坑，用v-if的时候加上key
+
+## 微信公众号html页面缓存问题
+nginx配置解决
+```
+ // 找到nginx安装目录下的nginx.conf文件，再nginx里面添加如下的内容
+
+  location / {
+
+  add_header Cache-Control no-cache;
+
+  add_header Pragma no-cache;
+
+  add_header Expires 0;
+
+  }
+```
+
+## 合并单元格
+```javascript
+// 计算需要合并的单元格
+getSpanArr(data) {
+  this.spanArr = []
+  for (var i = 0; i < data.length; i++) {
+    if (i === 0) {
+      this.spanArr.push(1)
+      this.pos = 0
+    } else {
+      // 判断当前元素与上一个元素是否相同
+      if (data[i].realOpenDate === data[i - 1].realOpenDate) {
+        this.spanArr[this.pos] += 1
+        this.spanArr.push(0)
+      } else {
+        this.spanArr.push(1)
+        this.pos = i
+      }
+    }
+  }
+}
+// 合并单元格
+handleObjectSpanMethod({ row, column, rowIndex, columnIndex }) {
+  if (columnIndex === 1) {
+    const _row = this.spanArr[rowIndex]
+    const _col = _row > 0 ? 1 : 0
+    return {
+      rowspan: _row,
+      colspan: _col
+    }
+  }
+  if (columnIndex === 0) {
+    const _row = this.spanArr[rowIndex]
+    const _col = _row > 0 ? 1 : 0
+    return {
+      rowspan: _row,
+      colspan: _col
+    }
+  }
+}
+```

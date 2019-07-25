@@ -9,20 +9,9 @@
 <body>
   <script>
     window.onload = function () {
-      // 斐波那契数列
-      function memoize(func) {
-        let cache = {}
-        return function (key) {
-          if (!cache[key]) {
-            cache[key] = func.apply(this, arguments)
-          }
-          return cache[key]
-        }
-      }
-
-      let feibonacci = memoize(function (n) {
-        return n < 2 ? n : feibonacci(n -1) + feibonacci(n -2)
-      })
+      var arr = [1, 4, 5]
+      var objArr = [{name: 'kk'}, {name: 'oo'}]
+      console.log(objArr.filter(ele => ele.name === 'oo'))
     }
   </script>
 </body>
