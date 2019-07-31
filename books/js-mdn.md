@@ -27,3 +27,30 @@
 
 `forEach`
 在数组定义时省略的元素不会在forEach遍历时被列出，但是手动赋值为undefined的元素是会被列出
+
+## Promise
+
+## 代理
+### 1. 正向代理
+正向代理类似一个跳板机，代理访问外部资源
+例：翻墙，客户端访问不了的外部资源，但是代理服务器能访问外部资源，通过配置代理服务器，访问外部资源
+
+正向代理的用途：
+1. 访问原来不能访问的外部资源，如google
+2. nginx配置缓存
+```
+// 不缓存
+location / {
+
+add_header Cache-Control no-cache;
+
+add_header Expires 0;
+
+}
+```
+### 2. 反向代理
+通过反向代理服务器接受internet的内容，然后将请求转发给部署在内网的服务器
+主要应用：负载均衡
+```
+// nginx通过proxy_pass_http 配置代理站点，upstream实现负载均衡。
+```
