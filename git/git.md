@@ -20,6 +20,9 @@ git push origin dev:dev // 提交本地分支到远程
 ```
 1.删除本地分支 git branch -D br
 2. 删除远程分支 git push origin :eml-dev
+
+git push origin [name] // 创建远程分支(本地分支push到远程)
+git push origin :test   // 刚提交到远程的test将被删除，但是本地还会保存的，不用担心
 ```
 
 # 出现的问题
