@@ -5,14 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <style>
+    .box {
+      display: flex;
+    }
+    .box .item {
+      position: relative;
+      width: 50px;
+    }
+    .box input {
+      position: absolute;
+      width: 40px;
+      z-index: 1;
+      opacity: 0;
+    }
+    input:checked+label {
+      color: blue;
+    }
+  </style>
 </head>
 <body>
-  <script>
-    window.onload = function () {
-      var arr = [1, 4, 5]
-      var objArr = [{name: 'kk'}, {name: 'oo'}]
-      console.log(objArr.filter(ele => ele.name === 'oo'))
-    }
-  </script>
+  <div class="box">
+    <div class="item">
+      <input type="radio" name="name">
+      <label for="name">tab1</label>
+    </div>
+    <div class="item">
+      <input type="radio" name="name">
+      <label for="name">tab2</label>
+    </div>
+  </div>
 </body>
 </html>
