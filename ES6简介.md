@@ -1,6 +1,12 @@
 # ES6简介
 
-例如箭头函数(arrow functions)和简单的字符串插值(string interpolation),大到烧脑的新概念,例如代理(proxy)和生成器(generators) ===
+ES6， 全称 ECMAScript 6.0 ，是 JavaScript 的下一个版本标准，2015.06 发版。
+
+ES6 主要是为了解决 ES5 的先天不足，比如 JavaScript 里并没有类的概念，但是目前浏览器的 JavaScript 是 ES5 版本，大多数高版本的浏览器也支持 ES6，不过只实现了 ES6 的部分特性和功能。
+
+
+
+例如箭头函数(arrow functions)和简单的字符串插值(string interpolation),大到烧脑的新概念,例如代理(proxy)和生成器(generators) 等，经常使用，才更熟悉。
 
 
 
@@ -12,7 +18,7 @@
 * var 只会提前声明，function 既声明又定义
 * 在全局作用域下，使用 var 和 function 声明的变量会给 window 增加属性
 
-## es6的特点
+# es6的特点
 
 **let**
 
@@ -33,7 +39,13 @@
 1. 块级作用域
 2. 不存在变量提升（减少运行时错误，防止变量声明前就使用这个变量）
 
+![](/Users/apple/Documents/git/blog/es6/let.jpg)
+
+![](/Users/apple/Documents/git/blog/es6/const.jpg)
+
 ## 字符串的扩展
+
+常用方法
 
 1. includes   
 
@@ -52,7 +64,7 @@
 
 **模版字符串**：${}
 
-## 数组的扩展
+# 数组的扩展
 
 1. 数组的转换：Array.from(),Array.of()      去重，转换累数组
 
@@ -74,11 +86,15 @@
 
 4. 数组空位：指数组的某一位置好没有任何值
 
-解决的痛点：
+**解决的痛点**：
 
-includes(),(解决es5的indexOf不能发现NaN的不足
+includes(),(解决es5的**indexOf**不能发现**NaN**的不足
 
-## 解构赋值
+![](/Users/apple/Documents/git/blog/es6/Array.jpg)
+
+
+
+# 解构赋值
 
 1. 数组的解构赋值
 
@@ -104,9 +120,9 @@ includes(),(解决es5的indexOf不能发现NaN的不足
    [...arr1,...arr2]
    ```
 
-   
+   ![](/Users/apple/Documents/git/blog/es6/jiegou.jpg)
 
-## 函数的扩展
+# 函数的扩展
 
 1. 参数解构赋值。
 
@@ -166,6 +182,8 @@ includes(),(解决es5的indexOf不能发现NaN的不足
    - 箭头函数没有arguments
    - 箭头函数不可以用作构造函数 因为不可以使用new执行
 
+![](/Users/apple/Documents/git/blog/es6/function.jpg)
+
 ## 对象的扩展
 
 1. 简洁写法
@@ -220,7 +238,9 @@ includes(),(解决es5的indexOf不能发现NaN的不足
    // Vue中的计算属性，直接赋值会warning
    ```
 
-## Promise
+![](/Users/apple/Documents/git/blog/es6/object.jpg)
+
+# Promise
 
 - Promise的实例分为三个状态，一开始的状态就是pending（等待）状态，一旦new后，立马执行函数。
 - 执行函数的顺序：new Promise中的代码 ===> 当前队列中的同步代码 ===> then(异步)里面的回调函数
@@ -245,11 +265,15 @@ pro1.then((res)=>{
 console.log("因为then方法是异步的，所以不会等待，跳过直接进行这里的代码,所以这里先执行");
 ```
 
-CRM项目中 ，axios，全局请求拦截
+举例：CRM项目中 ，axios，全局请求拦截
 
-## Symbol，Set，Map
+![](/Users/apple/Documents/git/blog/es6/promise.jpg)
 
-1. 数组去重
+
+
+# Symbol，Set，Map
+
+1. Set去重
 
    ```
    Array.from(new Set(arr))
@@ -259,15 +283,105 @@ CRM项目中 ，axios，全局请求拦截
 
 2. map.提供了“值-值”对应，更完善
 
-## Proxy
+![](/Users/apple/Desktop/Map.png)
 
-1. #### Object.defineProperty
+![](/Users/apple/Desktop/Set.png)
 
-2. **Proxy**
+# Class
+
+### 定义类
+
+类实际上是个“特殊的函数”，就像你能够定义的函数声明和函数表达式一样，类语法有两个组成部分：类表达式和类声明
+
+**类声明**
+
+```
+class Car {
+  constructor(color, size) {
+    this.color = color;
+    this.size = size;
+  }
+}
+```
+
+**类表达式**
+
+```
+/* 匿名类 */ 
+let Car = class {
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
+  }
+};
+
+/* 命名的类 */ 
+let Car = class Rectangle {
+  constructor(color, size) {
+    this.color = color;
+    this.size = size;
+  }
+};
+```
+
+### 构造函数
+
+`constructor`方法是一个特殊的方法，这种方法用于创建和初始化一个由`class`创建的对象。一个类只能拥有一个名为 “constructor”的特殊方法。
+
+能用`super` 关键字来调用一个父类的构造函数
+
+### 原型方法
+
+```
+class Count {
+    // constructor
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    // Getter
+    get sum() {
+        return this.mul()
+    }
+    // Method
+    mul() {
+        return this.x * this.y;
+    }
+}
+const mul = new Rectangle(10, 10);
+
+console.log(mul.sum);
+// 100
+```
+
+### 静态方法
+
+```
+class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    static distance(a, b) {
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+
+        return Math.hypot(dx, dy);
+    }
+}
+
+const p1 = new Point(5, 5);
+const p2 = new Point(10, 10);
+
+console.log(Point.distance(p1, p2));
+```
+
+
 
 ## 总结
 
-常用的：
+目前常用的有
 
 1. let const
 2. Array.includes()
@@ -276,7 +390,9 @@ CRM项目中 ，axios，全局请求拦截
 5. Array.from(new Set(arr))，[...new Set(arr)] 数组去重
 6. Object.keys(),Object.values()
 
-还有Class，Promise，Iterator，Generator等，目前先分享这些
+
+
+还有Proxy，Iterator，Generator等，未完，下一期
 
 
 
