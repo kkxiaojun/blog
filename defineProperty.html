@@ -4,44 +4,69 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>对象的数据双向绑定</title>
+  <title>copy text</title>
+  <style>
+    textarea {
+      border: none;
+      outline: none;
+      resize: none;
+    }
+    textarea:focus {
+      border: none;
+      outline: none
+    }
+  </style>
 </head>
-
 <body>
-  <input id='input' type="" name="" value="">
-  <div></div>
+  <div id="copy">我是要被复制的那个</div>
+  <button class="btn">copy</button>
+  <!-- 采用textarea模拟 -->
+  <div style="margin-top:50px;">
+    <textarea id="copyText">我是用textarea模拟的</textarea>
+    <button class="btnText">copy</button>
+  </div>
   <script>
-    let el = document.getElementById('input') // 1. 获取输入框的dom节点
-    let obj = { // 2. 创建一个对象
-      name: ""
-    }
+   function copyFn(id) {
+     let target = null
+     target = document.querySelector('#' + id)
+     // 创建要copy的块, createRange: 表示一个包含节点与文本节点的一部分的文档片段。
+     let block = document.createRange();
+     // 选中要copy的区域
+     block.selectNode(target)
+     window.getSelection().removeAllRanges()
+     window.getSelection().addRange(block)
+     let copyResult = document.execCommand('copy')
+     // 清除选中的区域
+     window.getSelection().removeAllRanges()
+     if (copyResult) {
+       console.log('复制成功')
+     } else {
+       console.log('复制失败')
+     }
+   }
+   let btn = document.querySelector('.btn')
+   btn.addEventListener('click', (e) => {
+     // 执行复制
+     copyFn('copy')
+   })
 
-    function oberseve(obj) { // 3. 对对象进行观察
-      if (typeof obj !== 'object') return // 3.1 判断参数是否为对象
-      for (let key in obj) { // 3.2 对对象进行遍历，目的是为了把每个属性都设置get/set
-        defineReactive(obj, key, obj[key])
-        oberseve(obj[key]) // 3.3 obj[key] 有可能还是一个函数，需要递归，给obj[key]里的属性进行设置get/set
-      }
-    }
-
-    function defineReactive(target, property, value) { // 4. 使用Object.defineProperty
-      Object.defineProperty(target, property, {
-        get() {
-          el.value = value // 4.1 当读取时，把值赋值给input框
-          return value
-        },
-        set(newVal) {
-          el.value = newVal // 4.1 当设置时，把赋值给input框
-          value = newVal
-        }
-      })
-    }
-
-    oberseve(obj) // 5.执行该函数，对obj对象里的属性进行设置get/set
-    el.addEventListener('input', function () { // 6.给输入框绑定input事件
-      obj.name = this.value // 7.当输入框输入内容时，我们会把输入框的
-                            //   内容赋值给obj.name，触发obj.name的set方法
-    })
+  //采用textarea模拟
+   function copyTextarea(id) {
+     let target = null
+     target = document.querySelector('#' + id)
+     target.select()
+     let copyResult = document.execCommand('copy')
+     window.getSelection().removeAllRanges()
+     if (copyResult) {
+       console.log('复制成功')
+     } else {
+       console.log('复制失败')
+     }
+   }
+   let btnText = document.querySelector('.btnText')
+   btnText.addEventListener('click', (e) => {
+     copyTextarea('copyText')
+   })
   </script>
 </body>
 </html>
