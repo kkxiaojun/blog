@@ -22,8 +22,8 @@
 1. GET: 浏览器直接发出的GET只能由url触发。所以，GET上要在url之外带一些参数就只能让url附带queryString（HTTP本身并没有这个限制）。
 
 2. POST:浏览器发出请求的body主要有两种格式：
-  1. application/x-www-form-urlencoded (key1=value1&key2=value2)
-  2. multipart/form-data
+    1. application/x-www-form-urlencoded (key1=value1&key2=value2)
+    2. multipart/form-data
 
 因此，我们一般说的“GET请求没有body，只有url，请求数据放在url的querystring中；post请求的数据在bodyzhong ”。<font color=red>这种情况仅限于浏览器发送的请求</font>
 
