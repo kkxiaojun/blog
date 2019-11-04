@@ -49,15 +49,15 @@ float仍会占据其位置，position:absolute不占用页面空间 会有重叠
 
 # position
 1. absolute :生成绝对定位的元素， 相对于最近一级的 定位不是 static 的父元素来进行定位。
-2. fixed （老IE不支持）生成绝对定位的元素，通常相对于浏览器窗口或 frame 进行定位。
+2. fixed （老IE8以下不支持）生成绝对定位的元素，通常相对于浏览器窗口或 frame 进行定位。
 3. relative 生成相对定位的元素，相对于其在普通流中的位置进行定位。
 4. static 默认值。没有定位，元素出现在正常的流中
 5. sticky 生成粘性定位的元素，容器的位置根据正常文档流计算得出（饿了么的h5搜索框就是用了这个特性）
 6. inherit：规定从父元素继承 position 属性的值。
 
 **注意**
-1. absolute：生成绝对定位的元素，定位原点是离自己这一级元素最近的一级position设置为absolute或者relative的父元素的左上角为原点的。
-2. relative：生成相对定位的元素，定位原点是元素本身所在位置。。
+1. absolute：生成绝对定位的元素，<font color=red>定位原点</font>是离自己这一级元素最近的一级position设置为absolute或者relative的父元素的左上角为原点的。
+2. relative：生成相对定位的元素，<font color=red>定位原点</font>是元素本身所在位置的左上角。
 
 **absolute的containing block计算方式与正常流有什么不同**
 无论属于哪种，都要先找到其祖先元素中最近的 position 值不为 static 的元素，然后再判断：
