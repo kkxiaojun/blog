@@ -2,7 +2,7 @@
 
 ## 问题描述
 在vue项目，`sass`中引入字体的时候用相对路径报错：
-[font]()
+[](./../image/font.png)
 
 引入`font-face`字体文件的ulr如下，用的是相对路径：
 ```javascript
@@ -64,6 +64,7 @@
 
 使用`~@`可以的原因可以看Vue中的url转换规则：
 
+
 * 如果 URL 是一个绝对路径 (例如 /images/foo.png)，它将会被保留不变。
 
 * 如果 URL 以 . 开头，它会作为一个相对模块请求被解释且基于你的文件系统中的目录结构进行解析。
@@ -74,6 +75,8 @@
 ```
 * 如果 URL 以 @ 开头，它也会作为一个模块请求被解析。它的用处在于 Vue CLI 默认会设置一个指向 <projectRoot>/src 的别名 @。(仅作用于模版中)
 
+
+url转换规则[https://cli.vuejs.org/zh/guide/html-and-static-assets.html#%E4%BB%8E%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%E5%AF%BC%E5%85%A5](https://cli.vuejs.org/zh/guide/html-and-static-assets.html#%E4%BB%8E%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%E5%AF%BC%E5%85%A5)
 
 
 
