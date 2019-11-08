@@ -11,10 +11,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 // - css-loader 负责解析 CSS 代码，主要是为了处理 CSS 中的依赖，例如 `@import` 和 `url()` 等引用外部文件的声明；
 // - style-loader 会将 css-loader 解析的结果转变成 JS 代码，运行时动态插入 `style` 标签来让 CSS 代码生效。
-// extract-text-webpack-plugin将css单独剥离出来
+// extract-text-webpack-plugin将css单独剥离出来,替换插件（optimize-css-assets-webpack-plugin，mini-css-extract-plugin）
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-
-// optimize-css-assets-webpack-plugin, 压缩css
 
 module.exports = {
   entry: './js/index.js',
@@ -44,7 +42,21 @@ module.exports = {
     }),
     // 压缩js代码
     new UglifyPlugin(),
-    new ExtractTextPlugin('index.css')
+    // extract css into its own file
+    // Error contenthash not implemented with webpack > 4.3.0
+    // 1. yarn upgrade extract-text-webpack-plugin@next
+    // 2. 采用 mini-css-extract-plugin
+    new ExtractTextPlugin({
+      // 因为webpack4.3包含了contenthash这个关键字，所以ExtractTextPlugin中不能使用contenthash
+      // 使用md5:contenthash:hex:8代替contenthash
+      // github issue https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/765
+      filename: 'css/[name].[md5:contenthash:hex:8].css',
+      // Setting the following option to `false` will not extract CSS from codesplit chunks.
+      // Their CSS will instead be inserted dynamically with style-loader when the codesplit chunk has been loaded by webpack.
+      // It's currently set to `true` because we are seeing that sourcemaps are included in the codesplit bundle as well when it's `false`, 
+      // increasing file size: https://github.com/vuejs-templates/webpack/issues/1110
+      allChunks: true,
+    })
   ]
 }
 

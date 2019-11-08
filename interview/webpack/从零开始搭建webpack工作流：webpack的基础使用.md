@@ -1,4 +1,4 @@
-## webpack基本概念
+## webpack基本认识
 webpack 本质上是一个打包工具，它会根据代码的内容解析模块依赖，帮助我们把多个模块的代码打包。借用 webpack 官网的图片：
 
 ![webpack as a bundler](https://user-gold-cdn.xitu.io/2018/3/19/1623bfac4a1e0945?w=2152&h=850&f=png&s=133657)
@@ -49,7 +49,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?/,
+        test: /\.js$/,
         include: [
           path.resolve(__dirname, 'src')
         ],
