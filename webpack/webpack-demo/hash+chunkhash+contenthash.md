@@ -37,60 +37,66 @@ plugins: [
 
 **示例1：使用`hash`**
 
-`webpack.config.js`配置：
+`webpack.config.js`配置(非完整)：
 ```javascript
 entry: {
-  index: ["./src/index.js", "./src/index.css"],
-  vendors: ["./src/vendors.js"]
+  index: ['./js/index.js', './style/style.css'],
+  vendors: ["./js/vendors.js"]
 },
 output: {
-  filename: "[name].[hash].js"
+  path: path.resolve(__dirname, 'dist'),
+  filename: 'bundle.[name].[hash].js'
 }
 plugins: [
   new MiniCssExtractPlugin({
-    filename: "[name].[hash].css"
+    filename: "css/[name].[hash].css"
   })
 ]
 ```
 
 上图[]()
 
-每个文件都具有相同的哈希值，因为它[hash]是基于我们使用的所有源文件生成的。如果我重新运行该构建而不更改任何内容，则生成的哈希将保持不变。如果我仅编辑一个文件，则哈希值将发生变化，并且所有生成的捆绑软件的名称中都会包含此新哈希值。
+* 每个文件都具有相同的哈希值，因为它[hash]是基于我们使用的所有源文件生成的。
+* 如果我重新运行该构建而<font color=red>不更改任何内容</font>，则生成的[hash]将保持不变。
+* 如果我仅<font color=red>编辑一个文件</font>，则[hash]值将发生变化，并且所有生成捆绑的名称中都会包含此新。
 
 **示例2：使用`chunkhash`**
 `webpack.config.js`配置：
 ```javascript
 entry: {
-  index: ["./src/index.js", "./src/index.css"],
-  vendors: ["./src/vendors.js"]
+  index: ['./js/index.js', './js/index.css'],
+  vendors: ["./js/vendors.js"]
 },
 output: {
-  filename: "[name].[hash].js"
+  path: path.resolve(__dirname, 'dist'),
+  filename: 'bundle.[name].[chunkhash].js'
 }
 plugins: [
   new MiniCssExtractPlugin({
-    filename: "[name].[hash].css"
+    filename: "css/[name].[chunkhash].css"
   })
 ]
 ```
+[图片]()
 
-如您所见，第一个和第二个文件来自同index一块，因此它们的名称具有相同的哈希值。这是因为[chunkhash]是基于给定块的全部内容生成的。因此，如果我说编辑index.css并重新构建，来自index块的文件将具有一个新的哈希，但来自vendors块的文件将保持与以前相同。
+* 如图，第一个和第二个文件来自同index一块，因此它们的名称具有相同的[hash]。这是因为[chunkhash]是基于给定块的全部内容生成的。因此，如果我编辑index.css并重新构建，来自index块的文件将具有一个新的哈希，但来自vendors块的文件将保持与以前相同。
 
 **示例3：使用`contenthash`**
 `webpack.config.js`配置：
 ```javascript
 entry: {
-  index: ["./src/index.js", "./src/index.css"],
-  vendors: ["./src/vendors.js"]
+  index: ['./js/index.js', './js/index.css'],
+  vendors: ["./js/vendors.js"]
 },
 output: {
-  filename: "[name].[contenthash].js"
+  path: path.resolve(__dirname, 'dist'),
+  filename: 'bundle.[name].[contenthash].js'
 }
 plugins: [
   new MiniCssExtractPlugin({
-    filename: "[name].[hash].css"
+    filename: "css/[name].[contenthash].css"
   })
 ]
 ```
 
-这是显而易见的。每个生成的文件的名称都有一个唯一的哈希值，该哈希值是根据该文件的内容计算得出的。如果我进行更改，例如index.css重新构建，则仅生成的index.css将具有新的哈希。
+**每个生成的文件的名称都有一个唯一的哈希值，该哈希值是根据该文件的内容计算得出的。如果我进行更改，例如index.css重新构建，则仅生成的index.css将具有新的哈希。**
