@@ -16,7 +16,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   entry: {
-    index: ['./js/index.js', './js/index.css'],
+    index: ['./js/index.js', './style/style.scss'],
     vendors: ["./js/vendors.js"]
   },
   output: {
@@ -27,21 +27,41 @@ module.exports = {
     rules: [
       {
         test: /\.css/,
-        include: [
-          path.resolve(__dirname, 'js'),
-        ],
         use: [
           {
             loader: MiniCssExtractPlugin.loader
           },
           'css-loader'
         ]
-        // 因为这个插件需要干涉模块转换的内容，所以需要使用它对应的 loader
-        // use: ExtractTextPlugin.extract({ 
-        //   fallback: 'style-loader',
-        //   use: 'css-loader',
-        // }),
       },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          'css-loader',
+          'sass-loader'
+        ]
+      },
+      {
+        test: /\.js?/, // 支持 js 和 jsx
+        include: [
+          path.resolve(__dirname, 'js'), // js 目录下的才需要经过 babel-loader 处理
+        ],
+        loader: 'babel-loader',
+      },      
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192 // 在文件大小（单位 byte）低于指定的限制时，可以返回一个 DataURL。
+            }
+          }
+        ]
+      }
     ]
   },
   plugins: [
