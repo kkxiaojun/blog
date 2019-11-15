@@ -1,4 +1,4 @@
-# 从零开始搭建webpack工作流：前端基本开发环境的搭建
+# 重学webpack（二）：前端基本开发环境的搭建
 
 **在日常工作中的使用：**
 
@@ -130,6 +130,9 @@ module.exports = {
 }
 ```
 
+<font color=red>`uglifyjs-webpack-plugin`不支持ES6，可以用`terser-webpack-plugin`替代</font>
+
+
 ## 处理图片文件
 前边已经对css进行处理了，但是对于样式文件`url()`中的`jpg/png/gig`等是无法处理的，这里时候就需要用到另外的loader处理了。
 
@@ -180,15 +183,27 @@ module.exports = {
 ```
 
 ## `webpack-dev-server`构建本地静态服务
-[https://www.webpackjs.com/configuration/dev-server/](https://www.webpackjs.com/configuration/dev-server/)
+开发的过程中，实时查看效果[https://www.webpackjs.com/configuration/dev-server/](https://www.webpackjs.com/configuration/dev-server/)
 
-**配置 webpack：**
+安装`webpack-dev-server`
+
+配置`scripts`脚本
+```javascript
+// package.json
+  "scripts": {
+    "start": "webpack-dev-server --inline --progress --mode development", // 这里会涉及很多配置参数，具体的可以看官网文档
+    "build": "webpack --mode production"
+  }
+```
+这里对于`webpack-dev-server`先做简单的配置，后面用单独的章节了解熟悉。
+
+**最后webpack的配置**
 ```javascript
 // 路径解析
 const path = require('path')
 
-// 压缩JavaScript文件
-const UglifyPlugin = require('uglifyjs-webpack-plugin')
+// 压缩JavaScript文件, uglifyjs-webpack-plugin不支持ES6语法
+const terserWebpackPlugin = require('terser-webpack-plugin')
 
 // 简化了HTML文件的创建，以便为你的webpack包提供服务。这对于在文件名中包含每次会随着编译而发生变化哈希的 webpack bundle 尤其有用。 
 // 你可以让插件为你生成一个HTML文件，使用lodash模板提供你自己的模板，或使用你自己的loader。
@@ -202,8 +217,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   entry: {
-    index: ['./js/index.js', './js/index.css'],
-    vendors: ["./js/vendors.js"]
+    index: ['./src/js/index.js'],
+    vendors: ["./src/js/vendors.js"]
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -213,21 +228,47 @@ module.exports = {
     rules: [
       {
         test: /\.css/,
-        include: [
-          path.resolve(__dirname, 'js'),
-        ],
         use: [
           {
             loader: MiniCssExtractPlugin.loader
           },
           'css-loader'
         ]
-        // 因为这个插件需要干涉模块转换的内容，所以需要使用它对应的 loader
-        // use: ExtractTextPlugin.extract({ 
-        //   fallback: 'style-loader',
-        //   use: 'css-loader',
-        // }),
       },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          'css-loader',
+          'sass-loader'
+        ]
+      },
+      {
+        test: /\.js$/, // 支持 js 和 jsx
+        include: [
+          path.resolve(__dirname, './src/js'), // js 目录下的才需要经过 babel-loader 处理
+        ],
+        use: {
+          loader: 'babel-loader'
+          // options: {
+          //   // babel-preset-env 会是一个更好的选择，babel-preset-env 可以根据配置的目标浏览器或者运行环境来自动将ES2015+的代码转换为es5。
+          //   presets: ['@babel/preset-env']
+          // }
+        }
+      },      
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192 // 在文件大小（单位 byte）低于指定的限制时，可以返回一个 DataURL。
+            }
+          }
+        ]
+      }
     ]
   },
   plugins: [
@@ -236,7 +277,10 @@ module.exports = {
       template: 'index.html', // 配置文件模板
     }),
     // 压缩js代码
-    new UglifyPlugin(),
+    new terserWebpackPlugin({
+      cache: true,
+      parallel: true
+    }),
     // extract css into its own file
     // Error contenthash not implemented with webpack > 4.3.0
     // 1. yarn upgrade extract-text-webpack-plugin@next
@@ -254,5 +298,6 @@ module.exports = {
     })
   ]
 }
+
 
 ```

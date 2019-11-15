@@ -1,4 +1,4 @@
-# hash,chunkhash和contenthash的区别与应用
+# 重学webpack（三）：hash+chunkhash+contenthash
 > 确保浏览器选择更改的文件的简单方法是使用 output.filename替换。该[hash]置换可用于文件名中包含一个内置特定的哈希值，但它甚至更好使用[contenthash]替代这是一个文件的内容，这是每个资产不同的哈希值。
 
 <font color=red>官方文档中有关其用途的简要说明, output-filename的描述:</font>
