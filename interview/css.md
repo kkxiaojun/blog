@@ -67,7 +67,7 @@ float仍会占据其位置，position:absolute不占用页面空间 会有重叠
 
 # 动画
 用js来实现动画，我们一般是借助setTimeout或setInterval这两个函数，以及新的requestAnimationFrame
-```
+```javascript
 <div id="demo" style="position:absolute; width:100px; height:100px; background:#ccc; left:0; top:0;"></div>
 
 <script>
@@ -86,7 +86,7 @@ float仍会占据其位置，position:absolute不占用页面空间 会有重叠
 @keyframes 结合animation
 transition：property duration timing-function delay
 
-# 布局
+## 布局
 **两列布局**
 1. position absolute;margin-left;
 2. float+margin
