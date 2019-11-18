@@ -18,6 +18,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const PORT = 8080
 module.exports = {
+  mode: 'development',
   entry: {
     index: ['./src/js/index.js'],
     vendors: ["./src/js/vendors.js"]
@@ -25,12 +26,6 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.[name].[hash].js'
-  },
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    compress: true, // Gzip压缩
-    quiet: true, // necessary for FriendlyErrorsPlugin
-    port: PORT
   },
   module: {
     rules: [
@@ -112,6 +107,26 @@ module.exports = {
         ]
       }
     })
-  ]
+  ],
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true, // Gzip压缩
+    quiet: true, // necessary for FriendlyErrorsPlugin
+    port: PORT, // 端口
+    host: 'localhost',
+    open: true, // 自动开启浏览器
+    hot: true, // 是否热更新
+    proxy: {
+      // 开启代理
+      '/sys': {
+        target: 'http://test.com',
+        changeOrigin: true
+      },      
+      '/transfer': {
+        target: 'http://10.10.119.207:8004',
+        changeOrigin: true
+      }
+    }
+  }
 }
 
