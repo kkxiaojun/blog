@@ -1,16 +1,19 @@
-const express = require('express')
 const webpack = require('webpack')
-const webpackDevMiddleware = require('webpack-dev-middleware')
+const middleware = require('webpack-dev-middleware')
+const webpackOptions = require('./webpack.config.js') // webpack 配置文件的路径
 
+// 本地的开发环境默认就是使用 development mode
+webpackOptions.mode = 'development'
+
+const compiler = webpack(webpackOptions)
+const express = require('express')
 const app = express()
-const config = require('./webpack.config.js')
-const compiler = webpack(config)
 
-// 通知express 使用 
-app.use(webpackDevMiddleware(compiler, {
-  publicPath: config.output.publicPath
+app.use(middleware(compiler, {
+  // webpack-dev-middleware 的配置选项
 }))
 
-app.use(3000, function () {
-  console.log('webpack app listening on port 3000!\n')
-})
+// 其他 Web 服务中间件
+// app.use(...)
+
+app.listen(3000, () => console.log('Example app listening on port 3000!'))
