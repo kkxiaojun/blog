@@ -207,6 +207,8 @@ const service = axios.create({
 
 这样，我们开发环境和生产环境就分离了。
 
+示例代码传送[https://github.com/kkxiaojun/webpack-again](https://github.com/kkxiaojun/webpack-again)
+
 
 
 
