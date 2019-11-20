@@ -1,0 +1,5 @@
+通过 externals 配置来提取常用库，引用cdn
+合理配置CommonsChunkPlugin
+善用alias
+dllplugin启用预编译
+happypack多核构建项目
