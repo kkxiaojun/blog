@@ -215,34 +215,60 @@ module.exports = {
 
 但是，这样做有两个缺点：
 1. 如果入口 chunk 之间包含一些重复的模块，那些重复模块都会被引入到各个 bundle 中。
-2.  
+2. 这种方法不够灵活，并且不能将核心应用程序逻辑进行动态拆分代码。
 
+关于模块重复的问题，可以用``解决
 
 ### 防止重复
-### 动态导入
+`optimization`中的`splitChunks`即可做到
 
+注意：`splitChunks`是webpack4.x的解决方案，webpack3.x是用`CommonsChunkPlugin`插件
+
+`webpack3.x`
+```
+ new webpack.optimize.CommonsChunkPlugin(options)
+```
+
+`webpack4.x`
 ```javascript
-module.exports = {
-  mode: 'production',
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        libs: {
-          name: 'chunk-libs',
-          test: /[\\/]node_modules[\\/]/,
-          priority: 10,
-          chunks: 'initial' // 只打包初始时依赖的第三方
-        },
-        elementUI: {
-          name: 'chunk-elementUI', // 单独将 elementUI 拆包
-          priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
-          test: /[\\/]node_modules[\\/]element-ui[\\/]/
-        }
+ const path = require('path');
+
+  module.exports = {
+    mode: 'development',
+    entry: {
+      index: './src/index.js',
+      another: './src/another-module.js',
+    },
+    output: {
+      filename: '[name].bundle.js',
+      path: path.resolve(__dirname, 'dist'),
+    },
+    optimization: {
+      splitChunks: {
+        chunks: 'all', // chunks 代码公共的部分分离出来成为一个单独的文件
       }
     }
-  }
+  };
+```
+
+### 动态导入
+使用ECMAScript的 `import()`, webpack 会自动处理使用该语法编写的模块。
+
+```javascript
+// import 作为一个方法使用，传入模块名即可，返回一个 promise 来获取模块暴露的对象
+// 注释 webpackChunkName: "lodash" 指定 chunk 的名称，输出文件时有用
+import(/* webpackChunkName: "lodash" */ 'lodash').then((_) => { 
+  console.log(_.lash([1, 2, 3])) // 打印 3
 })
+
+```
+
+`vue-router`中也有类似的应用：
+有时候我们想把某个路由下的所有组件都打包在同个异步块 (chunk) 中。只需要使用 命名 chunk，一个特殊的注释语法来提供 chunk name (需要 Webpack > 2.4)。
+```javascript
+const Foo = () => import(/* webpackChunkName: "group-foo" */ './Foo.vue')
+const Bar = () => import(/* webpackChunkName: "group-foo" */ './Bar.vue')
+const Baz = () => import(/* webpackChunkName: "group-foo" */ './Baz.vue')
 ```
 
 
