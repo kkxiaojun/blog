@@ -1,4 +1,4 @@
-# 重学webpack（四）：loader和plugin的详细配置
+# 重学webpack（三）：loader和plugin的详细配置
 前面已经配置了基本的`loader`和`plugin`，但是`loader`和`plugin`的配置内容还有很多详细的内容，这里主要记录常用的配置内容。
 
 ## 配置loader
