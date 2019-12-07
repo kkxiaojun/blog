@@ -441,6 +441,17 @@ function resolutionProcedure(promise2, x, resolve, reject) {
   }
 }
 ```
+关于批量发送请求
+
+**Promise.all**
+Promise.all(iterable) 方法返回一个 Promise 实例，此实例在 iterable 参数内所有的 promise 都“完成（resolved）”或参数中不包含 promise 时回调完成（resolve）；如果参数中  promise 有一个失败（rejected），此实例回调失败（reject），失败原因的是第一个失败 promise 的结果。
+
+**Promise.allSettled()**
+Promise.allSettled()方法接受一组 Promise 实例作为参数，包装成一个新的 Promise 实例。只有等到所有这些参数实例都返回结果，
+不管是fulfilled还是rejected，包装实例才会结束。该方法由 ES2020 引入。
+
+
+**Promise.allsettled**
 # generator/yield,async/await
 ```javascript
 // generator/yield
