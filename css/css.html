@@ -35,16 +35,7 @@
       box-shadow: 0 2px 12px rgba(43,223,243,0.85);
     }
     h2:hover::after {
-      /* transition: all .35s; */
-      /* content: "";
-      position: absolute;
-      background: rgba(48,223,243,0.85); */
       width: 100vw;
-      /* height: 5px;
-      bottom: -3px;
-      left: 0;
-      border-radius: 6px;
-      box-shadow: 0 2px 12px rgba(43,223,243,0.85); */
     }
     h3 {
       display: flex;
@@ -92,9 +83,80 @@
       text-align-last: justify;
       color: #fff;
     }
+    .progress-line-wrapper .item {
+      width: 120px;
+      float: left;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .progress-line-wrapper .item .title {
+        display: block;
+        color: #d5d5d5;
+    }
+
+    .progress-line-wrapper .item .step {
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        position: relative;
+        background-color: #d5d5d5;
+        color: #fff;
+        border-radius: 50%;
+        text-align: center;
+    }
+
+    .progress-line-wrapper .item .step::before,
+    .progress-line-wrapper .item .step::after {
+        content: '';
+        width: 50px;
+        height: 4px;
+        background-color: #d5d5d5;
+        position: absolute;
+        top: 8px;
+    }
+
+    .progress-line-wrapper .item .step::before {
+        right: 20px;
+    }
+
+    .progress-line-wrapper .item .step::after {
+        left: 20px;
+    }
+
+    /* 激活时样式 */
+    .progress-line-wrapper .item.active .title {
+        color: #c12d1e;
+    }
+
+    .progress-line-wrapper .item.active .step {
+        background-color: #c12d1e;
+        color: #fff;
+    }
+
+    .progress-line-wrapper .item.active .step::before,
+    .progress-line-wrapper .item.active .step::after {
+        background-color: #c12d1e;
+    }
+    #cross {
+      background: red;
+      height: 100px;
+      position: relative;
+      width: 20px;
+    }
+    #cross:after {
+      background: red;
+      content: "";
+      height: 20px;
+      left: -40px;
+      position: absolute;
+      top: 40px;
+      width: 100px;
+    }
   </style>
 </head>
 <body>
+  <div id="cross"></div>
   <div>
     <h2>基础内容</h2>
     <h3>前端</h3>
@@ -106,6 +168,20 @@
     <li>电子邮件</li>
     <li>通讯地址</li>
   </ul>
+  <div class="progress-line-wrapper">
+      <div class="item active">
+          <span class="title">填写身份信息</span>
+          <span class="step">1</span>
+      </div>
+      <div class="item">
+          <span class="title">补充用户资料</span>
+          <span class="step">2</span>
+      </div>
+      <div class="item">
+          <span class="title">完成注册</span>
+          <span class="step">3</span>
+      </div>
+  </div>
   <script>
   
   </script>
